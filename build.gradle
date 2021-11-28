@@ -6,12 +6,14 @@ buildscript {
 }
 
 plugins {
+    id 'java'
     id 'org.jetbrains.kotlin.jvm' version "$kotlinVersion"
     id 'org.jetbrains.kotlin.plugin.serialization' version "$kotlinVersion"
+    id 'maven-publish'
 }
 
 group 'com.tangledwebgames'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 repositories {
     mavenCentral()
@@ -20,4 +22,29 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion"
+}
+
+java {
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        tangledMath(MavenPublication) {
+            from components.java
+
+            pom {
+                description = "A collection of Kotlin math utilities, including working with rational numbers."
+
+                licenses {
+                    name = "The Apache License, Version 2.0"
+                    url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                }
+
+                developers {
+                    name = "Louis Webb"
+                }
+            }
+        }
+    }
 }
